@@ -5,6 +5,7 @@ from email.message import EmailMessage
 
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+from auth import get_gmail_creds
 
 from db import init_db, save_sent_email
 
@@ -12,7 +13,7 @@ SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
 
 
 def get_gmail_service():
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    creds = get_gmail_creds()
     return build("gmail", "v1", credentials=creds)
 
 

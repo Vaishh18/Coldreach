@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from db import mark_replied
 from telegram_notify import notify_telegram
+from auth import get_gmail_creds
 
 SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 DB = "emails.db"
@@ -16,7 +17,7 @@ def get_pending_threads():
     return {row[0]: {"email": row[1], "subject": row[2]} for row in rows}
 
 def check_for_replies():
-    creds = Credentials.from_authorized_user_file("token.json", SCOPES)
+    creds =  get_gmail_creds()
     service = build("gmail", "v1", credentials=creds)
 
     pending = get_pending_threads()
